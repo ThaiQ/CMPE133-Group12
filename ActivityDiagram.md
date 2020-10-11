@@ -25,7 +25,10 @@ subgraph Edit
     fill11 --> sub1[Submit new info];
     sub1 --> exit1
 end
-
+```
+```mermaid
+graph TD
+classDef points fill:transparant,stroke:none,stroke-width:0px, fill-opacity:0, font-size:30px
 subgraph Create
     start["#cir;"]:::points
     exit["#bull;"]:::points
@@ -453,5 +456,184 @@ subgraph Delete Announcement
     ex3 --> |Yes| send3{Delete ?}
     send3 --> |No| exit3
     send3 --> |Yes| zz3[Delete] --> exit3
+end
+```
+
+## Calendar
+```mermaid
+graph TD
+classDef points fill:transparant,stroke:none,stroke-width:0px, fill-opacity:0, font-size:30px
+
+subgraph Create Calendar Event
+    start["#cir;"]:::points
+    exit["#bull;"]:::points
+    
+    start --> vr{TA or Teacher?}
+
+    vr --> |"No (then they are student)"| cs["Choose Invitees (only individuals emails)"]
+    vr --> |Yes| sel{Select a course?}
+    sel --> |Yes| c["Choose Invitees (all students of course and individual emails)"]
+    sel --> |No| cc["Choose Invitees (only individual emails)"]
+
+    c --> fill[Fill in title, meeting links, description, and dates]
+    cs --> fill
+    cc --> fill
+
+    fill --> s{Send ?}
+    s--> |No| exit
+    s--> |Yes| Send --> exit
+end
+```
+```mermaid
+graph TD
+classDef points fill:transparant,stroke:none,stroke-width:0px, fill-opacity:0, font-size:30px
+
+subgraph Edit Event
+    start["#cir;"]:::points
+    exit["#bull;"]:::points
+    
+    start --> sel{Select an event}
+    sel --> vr{"is event's creator?"}
+    vr --> |No| exit
+    vr --> |Yes| cha[Change title, meeting links, description, and dates]
+    cha --> s{Save ?}
+    s --> |No| exit
+    s --> |Yes| Save --> exit
+end
+
+subgraph Delete Event
+    start2["#cir;"]:::points
+    exit2["#bull;"]:::points
+    
+    start2 --> sel2{Select an event}
+    sel2 --> vr2{"is event's creator?"}
+    vr2 --> |No| exit2
+    vr2 --> |Yes| s2{Delete ?}
+    s2 --> |No| exit2
+    s2 --> |Yes| Delete --> exit2
+end
+```
+
+## To-do list
+```mermaid
+graph TD
+classDef points fill:transparant,stroke:none,stroke-width:0px, fill-opacity:0, font-size:30px
+
+subgraph Create To-Do Item
+    start["#cir;"]:::points
+    exit["#bull;"]:::points
+    
+    start --> vr{User account exist?}
+    vr --> |No| exit
+    vr --> |Yes| ch["Choose a due date (current date as default)"]
+    ch --> wr[Write some notes]
+    wr --> Save --> exit
+end
+
+subgraph Mark To-Do Item
+    start2["#cir;"]:::points
+    exit2["#bull;"]:::points
+
+    start2 --> ch2{"To-do item belong to user?"}
+    ch2 --> |No| exit2
+    ch2 --> |Yes| mk["Mark as `done` or `not done`"]
+    mk --> s2[Save] --> exit2
+end
+```
+```mermaid
+graph TD
+classDef points fill:transparant,stroke:none,stroke-width:0px, fill-opacity:0, font-size:30px
+
+subgraph Edit To-Do Item
+    start["#cir;"]:::points
+    exit["#bull;"]:::points
+
+    start --> vr{"To-do item belong to user?"}
+    vr --> |No| exit
+    vr --> |Yes| ed[Edit item contents and date]
+    ed --> Save --> exit
+end
+
+subgraph Delete To-Do Item
+    start2["#cir;"]:::points
+    exit2["#bull;"]:::points
+
+    start2 --> vr2{"To-do item belong to user?"}
+    vr2 --> |No| exit2
+    vr2 --> |Yes| Delete --> exit2
+end
+```
+
+## Notes
+```mermaid
+graph TD
+classDef points fill:transparant,stroke:none,stroke-width:0px, fill-opacity:0, font-size:30px
+
+subgraph Create Notes
+    start["#cir;"]:::points
+    exit["#bull;"]:::points
+
+    start --> us[User create a note]
+    us --> date["Choose a date (default on current date)"]
+    date --> c{Choose a course for the note?}
+    
+    c--> |No| wr[Write some notes]
+    c--> |Yes| rg[Register notes to course for easy access] --> wr
+    wr --> Save --> exit
+end
+
+subgraph Edit Notes
+    start2["#cir;"]:::points
+    exit2["#bull;"]:::points
+
+    start2 --> vr{Selected note belong to user?}
+    vr --> |No| exit2
+    vr --> |Yes| edit[Edit notes and dates]
+    edit --> s2[Save] --> exit2
+end
+
+subgraph Delete Notes
+    start3["#cir;"]:::points
+    exit3["#bull;"]:::points
+
+    start3 --> vr3{Selected note belong to user?}
+    vr3 --> |No| exit3
+    vr3 --> |Yes| Delete --> exit3
+end
+```
+
+## Personalize Dashboard
+```mermaid
+graph TD
+classDef points fill:transparant,stroke:none,stroke-width:0px, fill-opacity:0, font-size:30px
+
+subgraph Move Dashboard Item
+    start["#cir;"]:::points
+    exit["#bull;"]:::points
+
+    start --> vr{Verified JWT?}
+    vr --> |No| lg1[Logout] --> exit
+    vr --> |Yes| ed[go to Edit mode] --> mv[Move items on dashboard to desired location]
+    mv --> Save --> exit
+end
+
+subgraph Show/Hide Dashboard Item
+    start2["#cir;"]:::points
+    exit2["#bull;"]:::points
+
+    start2 --> vr2{Verified JWT?}
+    vr2 --> |No| lg[Logout] --> exit2
+    vr2 --> ed2[go to Edit mode] --> shw[Show Items Window] --> sh[Show/Hide items]
+    sh --> s3[Save] --> exit2
+end
+
+subgraph Resize Dashboard Item
+    start3["#cir;"]:::points
+    exit3["#bull;"]:::points
+
+    start3 --> vr3{Verified JWT?}
+    vr3 --> |No| lg4[Logout] --> exit3
+    vr3 --> ed3[go to Edit mode] --> rz[Drag at corner to resize items on dashboard]
+    rz --> s2[Save] --> exit3
 end
 ```
